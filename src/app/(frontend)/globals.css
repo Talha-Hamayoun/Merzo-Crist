@@ -1,0 +1,203 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ivory: #f6f1ea;
+  --color-paper: #fbf8f4;
+  --color-surface: #fffcf8;
+  --color-sand: #e7dccb;
+  --color-bronze: #a68456;
+  --color-bronze-deep: #7c5e36;
+  --color-champagne: #c6a56a;
+  --color-ink: #241f1a;
+  --color-ink-soft: #4a4036;
+  --color-charcoal: #1a1613;
+  --color-muted: #73685c;
+  --color-border: #e4d9cb;
+  --color-error: #8d3b3b;
+  --color-success: #2f6b45;
+
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-body: "Outfit", "Segoe UI", sans-serif;
+  --font-arabic: "Cairo", "Segoe UI", sans-serif;
+
+  --radius-sm: 0.125rem;
+  --shadow-soft: 0 24px 60px rgb(26 22 19 / 0.08);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    background: var(--color-ivory);
+    color: var(--color-ink);
+    font-family: var(--font-body), sans-serif;
+    text-rendering: optimizeLegibility;
+  }
+
+  html[lang="ar"] body,
+  html[lang="ar"] .font-display {
+    font-family: var(--font-arabic), sans-serif;
+    letter-spacing: 0;
+  }
+
+  .font-display {
+    font-family: var(--font-display), Georgia, serif;
+    font-weight: 500;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--color-bronze) 35%, white);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-bronze);
+    outline-offset: 3px;
+  }
+}
+
+@layer utilities {
+  .container-site {
+    width: min(100% - 2rem, 76rem);
+    margin-inline: auto;
+  }
+
+  @media (min-width: 768px) {
+    .container-site {
+      width: min(100% - 3.5rem, 80rem);
+    }
+  }
+
+  .eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-bronze-deep);
+  }
+
+  html[lang="ar"] .eyebrow {
+    letter-spacing: 0;
+    text-transform: none;
+    font-size: 0.84rem;
+  }
+
+  html[lang="ar"] .btn-label {
+    letter-spacing: 0;
+    text-transform: none;
+    font-size: 0.95rem;
+  }
+
+  .rich-text p,
+  .prose-copy p {
+    margin-top: 1rem;
+    line-height: 1.8;
+    color: var(--color-ink-soft);
+  }
+
+  .rich-text h2,
+  .rich-text h3 {
+    margin-top: 2rem;
+    font-family: var(--font-display), Georgia, serif;
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: var(--color-ink);
+  }
+
+  html[lang="ar"] .rich-text h2,
+  html[lang="ar"] .rich-text h3 {
+    font-family: var(--font-arabic), sans-serif;
+  }
+
+  .rich-text ul {
+    margin-top: 1rem;
+    padding-inline-start: 1.2rem;
+    list-style: disc;
+  }
+
+  .rich-text a {
+    color: var(--color-bronze-deep);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .image-zoom {
+    transition: transform 800ms var(--ease-out);
+  }
+
+  .hover-sheet {
+    transition: transform 600ms ease;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .hover-card {
+      transition: transform 800ms var(--ease-out);
+    }
+
+    .hover-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .group:hover .image-zoom {
+      transform: scale(1.06);
+    }
+
+    .hover-sheet {
+      transform: translateY(-100%);
+    }
+
+    .group:hover .hover-sheet,
+    .group:focus-within .hover-sheet {
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hover-card,
+    .hover-card:hover,
+    .hover-sheet,
+    .group:hover .image-zoom,
+    .group:hover .hover-sheet,
+    .group:focus-within .hover-sheet {
+      transform: none;
+      transition: none;
+    }
+  }
+
+  .marquee-track {
+    animation: marquee 42s linear infinite;
+  }
+
+  html[dir="rtl"] .marquee-track {
+    animation-direction: reverse;
+  }
+
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
