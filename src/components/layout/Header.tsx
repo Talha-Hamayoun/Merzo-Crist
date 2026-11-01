@@ -101,14 +101,14 @@ export function Header({
       </div>
       <div
         className={cn(
-          'flex h-16 items-center gap-6 px-[4vw] transition-colors duration-300 md:h-20',
+          'flex h-16 items-center justify-between gap-6 px-[4vw] transition-colors duration-300 md:h-20',
           solid || open ? 'border-b border-border bg-ivory/95 text-ink backdrop-blur' : 'bg-transparent text-ivory',
         )}
       >
         <Link href="/" aria-label="Merzo Crist" className="shrink-0">
           <Logo tone={tone} />
         </Link>
-        <nav className="ms-auto hidden items-center gap-7 lg:flex" aria-label="Primary">
+        <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary">
           {nav.map((item) => (
             <div key={item.href} className="group relative">
               <Link

@@ -1,8 +1,41 @@
+import { ArrowRight } from 'lucide-react'
+
 import { BrandIcon } from '@/components/brand/Icon'
 import { MediaImage } from '@/components/media/MediaImage'
 import { Link } from '@/i18n/navigation'
-import type { Category, Post, Product, Service } from '@/types/site'
+import type { Category, ImageAsset, Post, Product, Project, Service } from '@/types/site'
 import { formatDate } from '@/utilities/format'
+
+function CatalogueCard({
+  href,
+  image,
+  title,
+  sizes,
+  imageClassName = 'h-82.5 md:h-60',
+}: {
+  href: string
+  image: ImageAsset
+  title: string
+  sizes: string
+  imageClassName?: string
+}) {
+  return (
+    <Link href={href} className="hover-card group block overflow-hidden rounded-b-[15px] bg-surface">
+      <span className={`relative block overflow-hidden ${imageClassName}`}>
+        <MediaImage image={image} sizes={sizes} className="image-zoom" />
+        <span className="hover-sheet absolute inset-0 flex items-center justify-center bg-black/50 px-6 text-center text-[18px] leading-snug font-semibold text-white" aria-hidden>
+          {title}
+        </span>
+      </span>
+      <span className="hover-line mx-auto mt-2.5 flex w-[95%] justify-center border-t-[2px] border-champagne px-3 pt-2.5 pb-4">
+        <span className="hover-btn inline-flex max-w-full items-center justify-center gap-2.5 bg-champagne px-6 py-3 text-center text-sm leading-snug font-medium text-white">
+          <span className="line-clamp-2">{title}</span>
+          <ArrowRight className="size-3.5 shrink-0 rtl:rotate-180" aria-hidden />
+        </span>
+      </span>
+    </Link>
+  )
+}
 
 export function ProductCard({ product, cta }: { product: Product; cta: string }) {
   return (
@@ -25,18 +58,26 @@ export function ProductCard({ product, cta }: { product: Product; cta: string })
   )
 }
 
-export function CategoryCard({ category, cta }: { category: Category; cta: string }) {
+export function ProjectCard({ project }: { project: Project }) {
   return (
-    <Link href={`/products?category=${category.slug}`} className="group hover-card relative block aspect-[4/5] overflow-hidden bg-sand">
-      <MediaImage image={category.image} sizes="(min-width: 1024px) 33vw, 100vw" className="image-zoom" />
-      <div className="hover-sheet absolute inset-0 flex items-center justify-center bg-black/50 p-6 text-center text-ivory">
-        <div>
-          <h3 className="font-display text-3xl">{category.name}</h3>
-          <p className="mt-2 text-sm text-ivory/85">{category.description}</p>
-          <span className="mt-3 inline-block text-xs tracking-[0.16em] text-champagne uppercase">{cta}</span>
-        </div>
-      </div>
-    </Link>
+    <CatalogueCard
+      href={`/projects/${project.slug}`}
+      image={project.image}
+      title={project.title}
+      sizes="(min-width: 1024px) 30vw, 100vw"
+      imageClassName="h-[26rem] md:h-[28rem]"
+    />
+  )
+}
+
+export function CategoryCard({ category }: { category: Category }) {
+  return (
+    <CatalogueCard
+      href={`/products?category=${category.slug}`}
+      image={category.image}
+      title={category.name}
+      sizes="(min-width: 1024px) 33vw, 100vw"
+    />
   )
 }
 

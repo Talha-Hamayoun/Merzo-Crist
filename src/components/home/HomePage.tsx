@@ -1,7 +1,7 @@
 import { getTranslations } from 'next-intl/server'
 
 import { BrandIcon } from '@/components/brand/Icon'
-import { CategoryCard, PostCard, ProductCard, ServiceCard } from '@/components/catalog/Cards'
+import { CategoryCard, PostCard, ProductCard, ProjectCard, ServiceCard } from '@/components/catalog/Cards'
 import { ArticleBody } from '@/components/common/ArticleBody'
 import { FaqList, PartnerRow, StatsBand, TestimonialSlider } from '@/components/home/Interactive'
 import { Hero } from '@/components/home/Hero'
@@ -19,7 +19,6 @@ export async function HomePage({ locale }: { locale: Locale }) {
   const t = await getTranslations('sections')
   const common = await getTranslations('common')
   const nav = await getTranslations('nav')
-  const projects = await getTranslations('projects')
   const featured = site.catalogue.products.filter((product) => product.featured).slice(0, 6)
   const products = featured.length ? featured : site.catalogue.products.slice(0, 6)
 
@@ -78,9 +77,9 @@ export async function HomePage({ locale }: { locale: Locale }) {
       <section className="bg-paper py-16 md:py-24">
         <div className="container-site">
           <SectionHeading eyebrow={t('categoriesEyebrow')} title={t('categoriesTitle')} />
-          <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
             {site.catalogue.categories.map((category) => (
-              <CategoryCard key={category.slug} category={category} cta={common('explore')} />
+              <CategoryCard key={category.slug} category={category} />
             ))}
           </div>
         </div>
@@ -103,19 +102,9 @@ export async function HomePage({ locale }: { locale: Locale }) {
       <section className="bg-paper py-16 md:py-24">
         <div className="container-site">
           <SectionHeading eyebrow={t('projectsEyebrow')} title={t('projectsTitle')} text={t('projectsText')} />
-          <div className="mt-10 columns-1 gap-4 sm:columns-2 lg:columns-3">
-            {site.catalogue.projects.slice(0, 6).map((project, index) => (
-              <Link key={project.slug} href={`/projects/${project.slug}`} className="group hover-card mb-4 block break-inside-avoid">
-                <div className={`relative overflow-hidden bg-sand ${index % 3 === 0 ? 'aspect-[3/4]' : 'aspect-[4/5]'}`}>
-                  <MediaImage image={project.image} sizes="(min-width: 1024px) 30vw, 100vw" className="image-zoom" />
-                  <div className="hover-sheet absolute inset-0 flex items-center justify-center bg-black/50 p-6 text-center text-ivory">
-                    <div>
-                      <p className="text-[0.68rem] tracking-[0.16em] text-champagne uppercase">{projects(project.category)}</p>
-                      <h3 className="mt-2 font-display text-3xl">{project.title}</h3>
-                    </div>
-                  </div>
-                </div>
-              </Link>
+          <div className="mt-10 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
+            {site.catalogue.projects.slice(0, 6).map((project) => (
+              <ProjectCard key={project.slug} project={project} />
             ))}
           </div>
         </div>
