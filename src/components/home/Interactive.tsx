@@ -164,14 +164,15 @@ export function ProjectBrowser({
 export function PartnerRow({ partners }: { partners: { name: string; href?: string; logo?: string }[] }) {
   const loop = [...partners, ...partners]
   return (
-    <div className="overflow-hidden border-y border-border bg-surface py-8">
+    <div className="overflow-hidden border-y border-border bg-surface py-10">
       <div className="marquee-track flex w-max items-center gap-4 px-4">
         {loop.map((partner, index) => {
-          const className = 'flex h-16 min-w-44 items-center justify-center border border-border px-6 text-sm tracking-[0.18em] text-ink-soft uppercase'
+          const className =
+            'flex h-28 min-w-56 items-center justify-center border border-border px-8 text-sm tracking-[0.18em] text-ink-soft uppercase'
           const inner = partner.logo ? (
             // Logos from the CMS are arbitrary uploads; next/image needs known dimensions.
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={partner.logo} alt={partner.name} className="max-h-8 w-auto" />
+            <img src={partner.logo} alt={partner.name} className="max-h-20 max-w-44 w-auto object-contain" />
           ) : (
             partner.name
           )
