@@ -74,8 +74,13 @@ export function TestimonialSlider({ items }: { items: Testimonial[] }) {
 
   return (
     <div className="mx-auto max-w-3xl text-center">
-      <blockquote className="font-display text-3xl leading-snug text-ink md:text-4xl">“{item.review}”</blockquote>
-      <div className="mt-6 flex items-center justify-center gap-1 text-bronze" aria-label={`${item.rating}/5`}>
+      <blockquote className="font-display text-3xl leading-snug text-ink md:text-4xl">
+        “{item.review}”
+      </blockquote>
+      <div
+        className="mt-6 flex items-center justify-center gap-1 text-bronze"
+        aria-label={`${item.rating}/5`}
+      >
         {Array.from({ length: 5 }, (_, star) => (
           <span key={star} className={star < item.rating ? 'opacity-100' : 'opacity-25'}>
             ★
@@ -86,10 +91,20 @@ export function TestimonialSlider({ items }: { items: Testimonial[] }) {
       {item.role ? <p className="mt-1 text-sm text-muted">{item.role}</p> : null}
       {items.length > 1 ? (
         <div className="mt-8 flex justify-center gap-3">
-          <button type="button" className="flex size-10 items-center justify-center border border-border" aria-label={t('previous')} onClick={() => go(index - 1)}>
+          <button
+            type="button"
+            className="flex size-10 items-center justify-center border border-border"
+            aria-label={t('previous')}
+            onClick={() => go(index - 1)}
+          >
             <ChevronLeft className="size-4 rtl:rotate-180" />
           </button>
-          <button type="button" className="flex size-10 items-center justify-center border border-border" aria-label={t('next')} onClick={() => go(index + 1)}>
+          <button
+            type="button"
+            className="flex size-10 items-center justify-center border border-border"
+            aria-label={t('next')}
+            onClick={() => go(index + 1)}
+          >
             <ChevronRight className="size-4 rtl:rotate-180" />
           </button>
         </div>
@@ -115,7 +130,12 @@ export function FaqList({ items }: { items: { question: string; answer: string }
               <span className="font-display text-2xl">{item.question}</span>
               <span className="text-bronze">{expanded ? '–' : '+'}</span>
             </button>
-            <div className={cn('grid transition-[grid-template-rows] duration-300', expanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]')}>
+            <div
+              className={cn(
+                'grid transition-[grid-template-rows] duration-300',
+                expanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]',
+              )}
+            >
               <div className="overflow-hidden">
                 <p className="pb-5 leading-relaxed text-muted">{item.answer}</p>
               </div>
@@ -135,7 +155,8 @@ export function ProjectBrowser({
   labels: Record<ProjectCategory | 'all', string>
 }) {
   const [filter, setFilter] = useState<ProjectCategory | 'all'>('all')
-  const visible = filter === 'all' ? projects : projects.filter((project) => project.category === filter)
+  const visible =
+    filter === 'all' ? projects : projects.filter((project) => project.category === filter)
   const filters: (ProjectCategory | 'all')[] = ['all', 'residential', 'hospitality', 'commercial']
 
   return (
@@ -146,7 +167,12 @@ export function ProjectBrowser({
             key={key}
             type="button"
             onClick={() => setFilter(key)}
-            className={cn('h-10 border px-4 text-sm', filter === key ? 'border-charcoal bg-charcoal text-ivory' : 'border-border bg-surface')}
+            className={cn(
+              'h-10 border px-4 text-sm',
+              filter === key
+                ? 'border-charcoal bg-charcoal text-ivory'
+                : 'border-border bg-surface',
+            )}
           >
             {labels[key]}
           </button>
@@ -161,7 +187,11 @@ export function ProjectBrowser({
   )
 }
 
-export function PartnerRow({ partners }: { partners: { name: string; href?: string; logo?: string }[] }) {
+export function PartnerRow({
+  partners,
+}: {
+  partners: { name: string; href?: string; logo?: string }[]
+}) {
   const loop = [...partners, ...partners]
   return (
     <div className="overflow-hidden border-y border-border bg-surface py-10">
@@ -172,12 +202,22 @@ export function PartnerRow({ partners }: { partners: { name: string; href?: stri
           const inner = partner.logo ? (
             // Logos from the CMS are arbitrary uploads; next/image needs known dimensions.
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={partner.logo} alt={partner.name} className="max-h-20 max-w-44 w-auto object-contain" />
+            <img
+              src={partner.logo}
+              alt={partner.name}
+              className="max-h-20 max-w-44 w-auto object-contain"
+            />
           ) : (
             partner.name
           )
           return partner.href ? (
-            <a key={`${partner.name}-${index}`} href={partner.href} className={className} target="_blank" rel="noreferrer">
+            <a
+              key={`${partner.name}-${index}`}
+              href={partner.href}
+              className={className}
+              target="_blank"
+              rel="noreferrer"
+            >
               {inner}
             </a>
           ) : (
