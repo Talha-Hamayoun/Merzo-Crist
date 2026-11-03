@@ -6,6 +6,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
 import { ProjectCard } from '@/components/catalog/Cards'
+import { MediaImage } from '@/components/media/MediaImage'
 import type { Project, ProjectCategory, Testimonial } from '@/types/site'
 import { cn } from '@/utilities/cn'
 
@@ -65,37 +66,56 @@ function Counter({ value }: { value: number }) {
 export function TestimonialSlider({ items }: { items: Testimonial[] }) {
   const t = useTranslations('common')
   const [index, setIndex] = useState(0)
-  const item = items[index]
-  if (!item) return null
+  if (!items.length) return null
 
-  function go(next: number) {
-    setIndex((next + items.length) % items.length)
+  const perPage = 3
+  const visibleCount = Math.min(perPage, items.length)
+
+  function go(step: number) {
+    setIndex((current) => (current + step + items.length) % items.length)
   }
 
+  const visible = Array.from({ length: visibleCount }, (_, offset) => items[(index + offset) % items.length]!)
+
   return (
-    <div className="mx-auto max-w-3xl text-center">
-      <blockquote className="font-display text-3xl leading-snug text-ink md:text-4xl">
-        “{item.review}”
-      </blockquote>
-      <div
-        className="mt-6 flex items-center justify-center gap-1 text-bronze"
-        aria-label={`${item.rating}/5`}
-      >
-        {Array.from({ length: 5 }, (_, star) => (
-          <span key={star} className={star < item.rating ? 'opacity-100' : 'opacity-25'}>
-            ★
-          </span>
+    <div>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {visible.map((item, slot) => (
+          <article key={`${item.name}-${index}-${slot}`} className="min-w-0">
+            {item.image ? (
+              <div className="relative aspect-[3/4] w-full overflow-hidden bg-sand">
+                <MediaImage
+                  image={item.image}
+                  sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw"
+                  className="object-contain"
+                />
+              </div>
+            ) : (
+              <div className="flex aspect-[3/4] items-center justify-center bg-sand px-6 text-center">
+                <blockquote className="font-display text-2xl leading-snug text-ink">“{item.review}”</blockquote>
+              </div>
+            )}
+            <div className="mt-4 text-center">
+              <div className="flex items-center justify-center gap-1 text-bronze" aria-label={`${item.rating}/5`}>
+                {Array.from({ length: 5 }, (_, star) => (
+                  <span key={star} className={star < item.rating ? 'opacity-100' : 'opacity-25'}>
+                    ★
+                  </span>
+                ))}
+              </div>
+              <p className="mt-3 text-sm tracking-[0.14em] uppercase">{item.name}</p>
+              {item.role ? <p className="mt-1 text-sm text-muted">{item.role}</p> : null}
+            </div>
+          </article>
         ))}
       </div>
-      <p className="mt-4 text-sm tracking-[0.14em] uppercase">{item.name}</p>
-      {item.role ? <p className="mt-1 text-sm text-muted">{item.role}</p> : null}
-      {items.length > 1 ? (
+      {items.length > visibleCount ? (
         <div className="mt-8 flex justify-center gap-3">
           <button
             type="button"
             className="flex size-10 items-center justify-center border border-border"
             aria-label={t('previous')}
-            onClick={() => go(index - 1)}
+            onClick={() => go(-1)}
           >
             <ChevronLeft className="size-4 rtl:rotate-180" />
           </button>
@@ -103,7 +123,7 @@ export function TestimonialSlider({ items }: { items: Testimonial[] }) {
             type="button"
             className="flex size-10 items-center justify-center border border-border"
             aria-label={t('next')}
-            onClick={() => go(index + 1)}
+            onClick={() => go(1)}
           >
             <ChevronRight className="size-4 rtl:rotate-180" />
           </button>
